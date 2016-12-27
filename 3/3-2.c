@@ -10,6 +10,7 @@
 
 int get_line(char s[], int lim);
 void escape(char s[], char t[]);
+void escape_invert(char s[], char t[]);
 
 int main(void)
 {
@@ -20,13 +21,51 @@ int main(void)
     {
         escape(sline, line);
         printf("%s\n", sline);
+
+        escape_invert(sline, line);
+        printf("%s\n", sline);
     }
 
     return 0;
 }
 
-/* escape: копирует t в s, преобразуя символы новой строки и табуляции в видимые
-   последовательности символов(\n и \t)*/
+/*  escape_invert: копирует t в s, преобразуя эскейп-последовательности
+    в настоящие символы */
+void escape_invert(char s[], char t[])
+{
+    int i, j;
+    int slash = 0;          /* slash = 1 - введен обратный слеш (\)*/
+    
+    for (i = 0, j = 0; t[i] != '\0'; ++i, ++j)
+        switch (t[i])
+        {
+            case '\\': slash = 1;
+                       --j;
+                       break;
+
+            case 'n': if (slash)
+                      {
+                          s[j] = '\n';
+                          slash = 0;
+                      }
+                      break;
+
+            case 't': if (slash)
+                      {
+                          s[j] = '\t';
+                          slash = 0;
+                      }
+                      break;
+
+            default: s[j] = t[i];
+                     break;
+        }
+    s[j] = '\0';
+
+}
+
+/*  escape: копирует t в s, преобразуя символы новой строки и табуляции в видимые 
+    последовательности символов(\n и \t) */
 void escape(char s[], char t[])
 {
     int i, j;
