@@ -3,7 +3,6 @@
 *	При необходимости преобразованное число должно слева дополняться пробелами.                  */
 
 #include <stdio.h>
-#include <string.h>
 
 #define MAXLINE 100
 
@@ -16,7 +15,7 @@ int main(void)
     char line_number[MAXLINE];
 
     itoa(pattern, line_number, width);
-    printf("%s\t%d\n", line_number, strlen(line_number));
+    printf("%s\n", line_number);
 
     return 0;
 }
