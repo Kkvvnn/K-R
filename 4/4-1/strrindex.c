@@ -1,7 +1,7 @@
-/*  strindex: выдает позицию самого правого вхождения строки t в строку s
+/*  strrindex: выдает позицию самого правого вхождения строки t в строку s
   или -1, если вхождения не обнаружено */
 
-int strindex(char s[], char t[])
+int strrindex(char s[], char t[])
 {
     int i, j, k;
     int right_index = -1;
