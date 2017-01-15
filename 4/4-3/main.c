@@ -33,13 +33,13 @@ int main(void)
                          (op2 != 0.0) ? push(pop() / op2) : printf("ошибка: деление на нуль\n"); break;
             
             case '%'   : op2 = pop();
-                         if (op2 != 0)
+                         if ((int)op2 != 0)
                              /* при операции (%) в данной реализации отбрасывается дробная часть у операндов */
                              push ((int)pop() % (int)op2);
                          else
                              printf("ошибка: невозможно вычислить остаток от деления на нуль\n"); break;
             
-            case '\n'  : printf("\t%.8g\n", pop()); break;
+            case '\n'  : printf("\t\t%.8g\n", pop()); break;
             
             default    : printf("ошибка: неизвестная операция %s\n", s); break;
         }
