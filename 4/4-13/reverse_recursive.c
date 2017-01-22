@@ -5,11 +5,16 @@
 
 void reverse_recursive(char s[])
 {
-    static int i;
-    int len = strlen(s) - ++i;
+    static int i;               /* static - чтобы i сохраняла значение между рекурсивными вызовами */
+    int temp;
+    int len = strlen(s) - ++i;  /* длина строки s, уменьшающаяся с каждым вызовом на 1 */
 
-    if (len >= 0)
-        reverse_recursive(s);
+    temp = s[i - 1];            /**/
+    s[i - 1] = s[len];          /**/ /* переставляем симметричные элементы строки */
+    s[len] = temp;              /**/
 
-    s[i - 1] = s[len];
+    if (len > i)                /* пока не дойдем до середины строки */
+        reverse_recursive(s);   /* рекурсивно обращаемся к функции */
+    else
+        i = 0;                  /* перед выходом обнуляем статическую переменную i */
 }
