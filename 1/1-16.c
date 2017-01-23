@@ -4,28 +4,38 @@
 
 #include <stdio.h>
 
-#define MAXLINE 20    /* максимальный размер вводимой строки */
+#define MAXLINE 5    /* максимальный размер вводимой строки */
 
 int get_line(char line[], int limit_lin_line);
 void copy(char to[], char from[]);
 
 int main(void)
 {
-    int len;                  /* длина текущей строки */
+    int len, len2 = 0;                  /* длина текущей строки */
     int max = 0;              /* длина максимальной из просмотренных строк */
     char line[MAXLINE];       /* текущая строка */
     char longest[MAXLINE];    /* самая длинная строка */
     char bufer[MAXLINE];      /* для запоминания части строки, превышающей максимальный размер */
     
     while ((len = get_line(line, MAXLINE)) > 0)
-        if (len > max)
+    {
+        if (line[len - 1] != '\n')
+            len2 += len;
+        else
         {
-            max = len;
-            copy(longest, line);
+            len2 += --len;
+            
+            if (len2 > max)
+            {
+                max = len2;
+                len2 = 0;
+                copy(longest, line);
+            }
         }
-    
-    if (max > 0)              /* была ли введена хоть одна строка? */
-        printf("%s %d\n", longest, max);
+    }
+
+    if (max > 0)
+        printf("\n%s%d\n", longest, max);
 
     return 0;
 }
