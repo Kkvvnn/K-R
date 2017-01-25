@@ -4,38 +4,61 @@
 
 #include <stdio.h>
 
-#define MAXLINE 5    /* максимальный размер вводимой строки */
+#define MAXLINE 10    /* максимальный размер вводимой строки */
 
 int get_line(char line[], int limit_lin_line);
 void copy(char to[], char from[]);
 
 int main(void)
 {
-    int len, len2 = 0;                  /* длина текущей строки */
-    int max = 0;              /* длина максимальной из просмотренных строк */
-    char line[MAXLINE];       /* текущая строка */
-    char longest[MAXLINE];    /* самая длинная строка */
-    char bufer[MAXLINE];      /* для запоминания части строки, превышающей максимальный размер */
+    int len;                       /* длина текущего фрагмента строки */
+    int len_total = 0;             /* общая длина строки */
+    int max = 0;                   /* длина максимальной из просмотренных строк */
+    char line[MAXLINE];            /* текущий фрагмент строки */
+    char first[MAXLINE];           /* первый фрагмент самой длинной строки, превышающей MAXLINE */
+    char next[MAXLINE];            /* следующий фрагмент самой длинной строки */
+    char last[MAXLINE];            /* последний фрагмент самой длинной строки*/
+    char first_temp[MAXLINE] = ""; /* первый фрагмент текущей строки */
+    char next_temp[MAXLINE] = "";  /* следующий фрагмент текущей строки */
     
     while ((len = get_line(line, MAXLINE)) > 0)
     {
-        if (line[len - 1] != '\n')
-            len2 += len;
-        else
+        if (line[len - 1] != '\n')             /* прочитан фрагмент, за которым строка ещё продолжается */
         {
-            len2 += --len;
+            if (len_total == 0)                /* если строка только началась */
+                copy(first_temp, line);        /* сохраняем первый фрагмент строки */
             
-            if (len2 > max)
+            len_total += len;                  /* увеличиваем общую длину строки на длину фрагмента */
+            copy(next_temp, line);             /* сохраняем текущий фрагмент */
+        }
+        else                             /* прочитан последний фрагмент строки */
+        {
+            len_total += --len;          /* увеличиваем общую длину на длину фрагмента без завершающего \n */
+            
+            if (len_total > max)
             {
-                max = len2;
-                len2 = 0;
-                copy(longest, line);
+                max = len_total;
+                copy(last, line);        /* сохраняем последний фрагмент самой длинной из введенных строк */
+                copy(first, first_temp); /* сохраняем первый фрагмент самой длинной из веденных строк */
+                copy(next, next_temp);   /* сохраняем следующий(предпоследний) фрагмент строки  */
             }
+
+            len_total = 0;  /* обнуляем общую длину строки перед переходом к следующей строке */
         }
     }
 
     if (max > 0)
-        printf("\n%s%d\n", longest, max);
+        printf("\nСамая длинная строка из введенных:\n");
+    
+    if (max >= 3 * (MAXLINE - 1))
+        printf("%s...%s%s", first, next, last); /* строка состоит из 4-х и более фрагментов */
+    else if (max >= 2 * (MAXLINE - 1))
+        printf("%s%s%s", first, next, last);    /* строка состоит из 3-х фрагментов */
+    else if (max >=  (MAXLINE - 1))
+        printf("%s%s", first, last);            /* строка состоит из 2-х фрагментов */
+    else if (max > 0)
+        printf("%s", last);                     /* строка состоит только из 1-го фрагмента */
+
 
     return 0;
 }
