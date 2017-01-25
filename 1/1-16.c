@@ -59,7 +59,6 @@ int main(void)
     else if (max > 0)
         printf("%s", last);                     /* строка состоит только из 1-го фрагмента */
 
-
     return 0;
 }
 
