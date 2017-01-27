@@ -10,7 +10,7 @@
 
 #include <stdio.h>
 
-#define MAXLINE 5    /* максимальный размер вводимой строки */
+#define MAXLINE 10    /* максимальный размер вводимой строки */
 
 int get_line(char line[], int limit_lin_line);
 void copy(char to[], char from[]);
