@@ -14,7 +14,7 @@
 #include <stdio.h>
 
 #define MAXLINE     1000    /* Максимальная длина строки */
-#define N           5       /* ширина "стопа" табуляции */
+#define N           8       /* ширина "стопа" табуляции */
 
 int get_line(char line[], int limit);
 void detab(char line[], int stop_tab);
@@ -30,6 +30,33 @@ int main(void)
     return 0;
 }
 
+
+/*  Печатает строку s с заменой табуляции нужным числом     *
+ *   пробелов до следующего "стопа" табуляции.              *
+ *   stop_tab - расстояние между "стопами" табуляций        */
+void detab(char s[], int stop_tab)
+{
+    int i, j;
+    int t = 0;
+    int n = 1;
+    
+    for (i = 0; s[i] != '\0'; ++i)
+    {
+        j = i + t - n;
+        if (s[i] == '\t')
+        {
+            ++n;
+            while ((stop_tab - j % stop_tab) != 1)
+            {
+                putchar('#');
+                ++t;
+                ++j;
+            }
+        }
+        else
+            putchar(s[i]);
+    }
+}
 
 /* Читает вводимую строку в s, возвращает её длину  */
 int get_line(char s[], int lim)
@@ -47,22 +74,3 @@ int get_line(char s[], int lim)
     return i;
 }
 
-/*  Печатает строку s с заменой табуляции нужным числом     *
- *   пробелов до следующего "стопа" табуляции.              *
- *   stop_tab - расстояние между "стопами" табуляций        */
-void detab(char s[], int stop_tab)
-{
-    int i, j;
-    
-    for (i = 0, j = 0; s[i] != '\0'; ++i, ++j)
-    {
-        if (s[i] == '\t')
-            while ((stop_tab - j % stop_tab) != 1)
-            {
-                putchar('#');
-                ++j;
-            }
-        else
-            putchar(s[i]);
-    }
-}
