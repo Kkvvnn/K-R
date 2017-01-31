@@ -8,13 +8,13 @@
  *
  *	Vladimir Kashin
  *	<vova6281527@gmail.com>
- *	26-JAN-2017
+ *	31-JAN-2017
  */
 
 #include <stdio.h>
 
 #define MAXLINE     1000    /* Максимальная длина строки */
-#define N           8       /* ширина "стопа" табуляции */
+#define N           4       /* ширина табуляции */
 
 int get_line(char line[], int limit);
 void detab(char line[], int stop_tab);
@@ -31,31 +31,28 @@ int main(void)
 }
 
 
-/*  Печатает строку s с заменой табуляции нужным числом     *
- *   пробелов до следующего "стопа" табуляции.              *
- *   stop_tab - расстояние между "стопами" табуляций        */
-void detab(char s[], int stop_tab)
+/* detab: печатает строку s с заменой табуляции нужным числом пробелов 
+   до следующего "стопа" табуляции. tab_width - ширина табуляции */
+void detab(char s[], int tab_width)
 {
-    int i, j;
-    int t = 0;
-    int n = 1;
+    int i;
+    int space = 0;    /* количество пробелов необходимых до следующего "стопа" табуляции */
+    int c = 0;        /* количество символов, введенных перед следующим символом табуляции */
     
     for (i = 0; s[i] != '\0'; ++i)
-    {
-        j = i + t - n;
-        if (s[i] == '\t')
+        if (s[i] != '\t')
         {
-            ++n;
-            while ((stop_tab - j % stop_tab) != 1)
-            {
-                putchar('#');
-                ++t;
-                ++j;
-            }
+            putchar(s[i]);
+            ++c;
         }
         else
-            putchar(s[i]);
-    }
+        {
+            space = tab_width - c % tab_width;
+            c = 0;
+
+            while (space--)
+                putchar(' ');
+        }
 }
 
 /* Читает вводимую строку в s, возвращает её длину  */
