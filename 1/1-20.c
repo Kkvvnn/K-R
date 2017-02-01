@@ -22,9 +22,8 @@ void detab(char line[], int stop_tab);
 int main(void)
 {
     char line[MAXLINE];     /* Текущая строка */
-    int len;                /* Длина текущей строки */
 
-    while ((len = get_line(line, MAXLINE)) > 0)
+    while (get_line(line, MAXLINE) > 0)
         detab(line, N);
 
     return 0;
