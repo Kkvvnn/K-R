@@ -3,7 +3,7 @@
  *  Напишите программу, печатающую значение EOF.
  *
  *	Vladimir Kashin
- *	<vova6281527@gmail.com>
+ *	<kkvvnn89@gmail.com>
  *	26-JAN-2017
  */
 

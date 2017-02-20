@@ -4,7 +4,7 @@
  *  поток и заменяющую стоящие подряд пробелы на один пробел.
  *
  *	Vladimir Kashin
- *	<vova6281527@gmail.com>
+ *	<kkvvnn89@gmail.com>
  *	26-JAN-2017
  */
 
